@@ -1,6 +1,5 @@
 const data = require("./dotenv");
 let access_token;
-function setAccess_token(access_token) {}
 const getNaverToken = async (location) => {
   if (!location.hash) {
     console.error("!location.hash");
