@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const userDBRouter = require("../routes/userDB");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
+router.use(userDBRouter);
 var token;
 router.use(cookieParser());
 router.post("/", async (req, res) => {
@@ -12,7 +14,7 @@ router.get("/", async (req, res) => {
   try {
     console.log("쿠키로 보낼 데이터", token);
     res.cookie("access_token", token, {
-      path: "/auth/member",
+      path: "/auth",
       httpOnly: true,
     });
     res.send(token);
@@ -21,11 +23,11 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/auth/member", async function (req, res) {
+router.get("/auth/member", function (req, res) {
+  var token = req.cookies.access_token;
+
+  const header = req.headers.authorization;
   var request = require("request");
-  var token = await req.cookies.access_token;
-  var header = "Bearer " + token; // Bearer 다음에 공백 추가
-  console.log(header);
   var api_url = "https://openapi.naver.com/v1/nid/me";
   var options = {
     url: api_url,

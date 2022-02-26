@@ -1,9 +1,14 @@
 const jwt = require("jsonwebtoken");
 
 const { SERVER_SECRET } = "1234";
-
+async function makeRefreshToken(accessToken) {
+  return new Promise((resolve, reject) => {
+    jwt.sign(value, SERVER_SECRET);
+  });
+}
 async function signJWT(value) {
   return new Promise((resolve, reject) => {
+    console.log(value);
     // TODO: complete here
     jwt.sign(value, SERVER_SECRET, (err, encoded) => {
       if (err) {

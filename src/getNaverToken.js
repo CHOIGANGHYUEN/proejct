@@ -8,6 +8,7 @@ const getNaverToken = async (location) => {
   /**@type {string} token*/
   const token = await location.hash.split("=")[1].split("&")[0];
   console.log("getNaverToken : ", token);
+
   return token;
 };
 const outputToken = () => {

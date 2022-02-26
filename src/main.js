@@ -1,12 +1,14 @@
-import Login from "./naverlogin";
 import axios from "axios";
-import Profile from "./profile";
+import LoginBtn from "./naverlogin";
+import ProfileComponent from "./profile";
+import RegisterBtn from "./register";
 
 function MainPage() {
   return (
     <div>
-      <Login></Login>
-      <Profile></Profile>
+      <LoginBtn></LoginBtn>
+      <RegisterBtn></RegisterBtn>
+      <ProfileComponent></ProfileComponent>
     </div>
   );
 }
