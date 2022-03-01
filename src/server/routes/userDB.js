@@ -18,12 +18,13 @@ const getUser = () => {
 router.get("/auth/usercheck", (req, res) => {
   const users = getUser();
   const user = users;
+  console.log(user);
+
   if (!user) {
     console.log("유저 정보를 불러오지 못했습니다.");
     res.status(400).end("유저 정보를 불러오지 못했습니다.");
     return;
   } else {
-    console.log("유저 정보를 불러왔습니다.");
     connection.query(
       "SELECT * FROM user_db where user_id=?",
       user.id,
@@ -33,8 +34,12 @@ router.get("/auth/usercheck", (req, res) => {
           throw err;
         }
         if (rows.length) {
+          console.log("유저 정보를 불러왔습니다.");
+
           res.status(200).send(rows);
         } else {
+          console.log("유저 정보를 불러오지 못했습니다.");
+
           res.send({
             data: {
               status: 400,
@@ -78,7 +83,7 @@ router.get("/auth/usercheck/create", (req, res) => {
   );
 });
 router.post("/auth/usercheck", async (req, res) => {
-  var user = req.body.response;
+  var user = req.body;
   var id = req.body;
   setUser(user);
 });

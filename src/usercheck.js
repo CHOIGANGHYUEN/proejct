@@ -1,28 +1,15 @@
 //네이버 API를 통해 유저의 정보를 받아온다.
-const NaverAPIListen = async (token) => {
-  const result = await fetch("http://localhost:3002/auth/member", {
-    method: "GET",
-    headers: {
-      credentials: "include",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((result) => result.json())
-    .then((data) => {
-      return data;
-    });
-  console.log("result ", result);
-  return result;
-};
-//
+
 const getUserCheck = async () => {
   var data;
   await fetch("http://localhost:3002/auth/usercheck", {
     method: "GET",
+    // headers: { "Content-Type": "application/json" },
   })
     .then(async (res) => {
+      console.log("여기 어떄");
       data = res.json();
+      console.log(data);
     })
     .catch((err) => {
       console.log("getUserCheck err", err);
@@ -31,23 +18,45 @@ const getUserCheck = async () => {
   return data;
 };
 //서버에 네이버 API를 통해 받은 데이터를
-const NaverAPIConnection = async (token) => {
-  const Profile = JSON.stringify(await NaverAPIListen(token));
-  await fetch("http://localhost:3002/auth/usercheck", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: Profile,
-  }).then((res) => {
-    console.log("여긴?", res);
-  });
-};
+
 const userCreate = async () => {
   await fetch("http://localhost:3002/auth/usercheck/create", {
     method: "get",
     headers: { "Content-Type": "application/json" },
   });
 };
-const NaverUserProfile = async (token) => {
+
+const setToken = async (token) => {
+  await fetch("http://localhost:3002", {
+    method: "post",
+    body: JSON.stringify({ access_token: token }),
+    headers: { "Content-Type": "application/json" },
+  });
+};
+const getToken = async () => {
+  await fetch("http://localhost:3002", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const result = await fetch("http://localhost:3002/auth", {
+    method: "get",
+    credentials: "include",
+  })
+    .then(async (res) => {
+      var data = await res.json();
+      return data;
+    })
+    .catch((err) => {
+      console.error("getToken ERR", err);
+    });
+  if (!(await result).token)
+    console.error("/auth에서 token을 받아오지 못했습니다.");
+  console.log((await result).token);
+  return (await result).token;
+};
+const setProfile = async (_token) => {
+  const token = await getToken();
+  console.log(await getToken());
   const result = await fetch("http://localhost:3002/auth/member", {
     method: "get",
     headers: {
@@ -61,14 +70,14 @@ const NaverUserProfile = async (token) => {
       return data;
     });
   if (!result) {
-    console.error("NaverUserProfile result err");
+    console.error("setProfile result err");
   }
   return result;
 };
 
 module.exports = {
-  NaverAPIConnection,
   getUserCheck,
   userCreate,
-  NaverUserProfile,
+  setProfile,
+  setToken,
 };

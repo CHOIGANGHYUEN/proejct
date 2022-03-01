@@ -7,7 +7,6 @@ function MainPage() {
   return (
     <div>
       <LoginBtn></LoginBtn>
-      <RegisterBtn></RegisterBtn>
       <ProfileComponent></ProfileComponent>
     </div>
   );

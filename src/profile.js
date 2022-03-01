@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import RegisterBtn from "./register";
 import { getUserCheck } from "./usercheck";
 function ProfileComponent() {
   const [Profile, setProfile] = useState([]);
@@ -8,7 +9,8 @@ function ProfileComponent() {
   }, []);
   console.log(Profile[0]);
 
-  if (Profile.data && Profile.data.body === "no") return <div>no</div>;
+  if (Profile.data && Profile.data.body === "no")
+    return <RegisterBtn></RegisterBtn>;
   else if (Profile[0])
     return (
       <div>

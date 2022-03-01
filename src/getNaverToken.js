@@ -1,4 +1,5 @@
 const data = require("./dotenv");
+const { setToken } = require("./usercheck");
 let access_token;
 const getNaverToken = async (location) => {
   if (!location.hash) {
@@ -7,11 +8,10 @@ const getNaverToken = async (location) => {
   }
   /**@type {string} token*/
   const token = await location.hash.split("=")[1].split("&")[0];
-  console.log("getNaverToken : ", token);
+  setToken(await token);
 
-  return token;
+  console.log(`setToken(${await token})`);
+  return await token;
 };
-const outputToken = () => {
-  return access_token;
-};
-module.exports = { getNaverToken, outputToken };
+
+module.exports = { getNaverToken };
