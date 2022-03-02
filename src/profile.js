@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import Logout from "./logout";
 import RegisterBtn from "./register";
-import { getUserCheck } from "./usercheck";
+import { getProfile } from "./usercheck";
 function ProfileComponent() {
   const [Profile, setProfile] = useState([]);
   // 가입하기 버튼을 누르면 fetch를 통해 /auth/usercheck/create로 넘어간ㄷ
   useEffect(async () => {
-    setProfile(await getUserCheck());
+    setProfile(await getProfile());
   }, []);
   console.log(Profile[0]);
 

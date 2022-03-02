@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getNaverToken } from "./getNaverToken";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { setProfile } from "./usercheck";
+import { setProfileWithNaverAPI } from "./usercheck";
 
 import data from "./dotenv";
 console.log(data);
@@ -23,6 +23,7 @@ function LoginBtn(props) {
   try {
     useEffect(async () => {
       await initializeNaverLogin();
+      await getNaverToken(location);
     }, []);
   } catch (error) {
     console.log("에러가 뜨긴함?");
@@ -31,7 +32,7 @@ function LoginBtn(props) {
     <div
       id="naverIdLogin"
       onClick={async () => {
-        setProfile(await getNaverToken(location));
+        setProfileWithNaverAPI();
       }}
     ></div>
   );

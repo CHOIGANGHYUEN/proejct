@@ -18,7 +18,6 @@ const getUser = () => {
 router.get("/auth/usercheck", (req, res) => {
   const users = getUser();
   const user = users;
-  console.log(user);
 
   if (!user) {
     console.log("유저 정보를 불러오지 못했습니다.");
@@ -26,17 +25,17 @@ router.get("/auth/usercheck", (req, res) => {
     return;
   } else {
     connection.query(
-      "SELECT * FROM user_db where user_id=?",
-      user.id,
+      "update user_db set is_login=true where user_id=?;SELECT * FROM user_db where user_id=?;",
+      [user.id, user.id],
       (err, rows, field) => {
         if (err) {
           console.log("fault query : server/routes/userDB");
           throw err;
         }
-        if (rows.length) {
+        if (rows[1].length) {
           console.log("유저 정보를 불러왔습니다.");
 
-          res.status(200).send(rows);
+          res.status(200).send(rows[1]);
         } else {
           console.log("유저 정보를 불러오지 못했습니다.");
 
@@ -55,7 +54,7 @@ router.get("/auth/usercheck/create", (req, res) => {
   const users = getUser();
   const user = users;
   connection.query(
-    "insert into user_db values (id,?,?,?,?)",
+    "insert into user_db values (id,?,?,?,?,false)",
     [user.id, user.email, user.birthday, user.name, user.id],
     (err, results, fields) => {
       if (err) {
@@ -84,7 +83,21 @@ router.get("/auth/usercheck/create", (req, res) => {
 });
 router.post("/auth/usercheck", async (req, res) => {
   var user = req.body;
-  var id = req.body;
   setUser(user);
+});
+router.get("/logout", (req, res) => {
+  const user = getUser();
+  connection.query(
+    "UPDATE user_db SET is_login=false WHERE user_id = ?",
+    user.id,
+    (err, res, field) => {
+      console.log("유저 정보변경");
+    }
+  );
+  // res.cookie("access_toekn", req.cookies.access_token, {
+  //   path: "/auth",
+  //   maxAge: 0,
+  // });
+  res.clearCookie("access_token", { path: "/auth" }).redirect("/auth");
 });
 module.exports = router;

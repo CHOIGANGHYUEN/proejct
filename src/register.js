@@ -1,9 +1,4 @@
-import {
-  NaverAPIConnection,
-  getUserCheck,
-  outGetUserCheck,
-  userCreate,
-} from "./usercheck";
+import { userCreate } from "./usercheck";
 
 function RegisterBtn() {
   const createUser = async () => {

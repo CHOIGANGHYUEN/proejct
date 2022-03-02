@@ -1,6 +1,7 @@
 //네이버 API를 통해 유저의 정보를 받아온다.
-
-const getUserCheck = async () => {
+const setUser = (_user) => {};
+const getIsLogin = () => {};
+const getProfile = async () => {
   var data;
   await fetch("http://localhost:3002/auth/usercheck", {
     method: "GET",
@@ -9,12 +10,13 @@ const getUserCheck = async () => {
     .then(async (res) => {
       console.log("여기 어떄");
       data = res.json();
-      console.log(data);
+      console.log(await data);
     })
     .catch((err) => {
-      console.log("getUserCheck err", err);
+      console.log("getProfile err", err);
     });
   if (!data) console.error("getUserCheck에서 데이터를 받지 못했습니다.");
+  else console.log("유저 정보를 보내 줌");
   return data;
 };
 //서버에 네이버 API를 통해 받은 데이터를
@@ -27,6 +29,8 @@ const userCreate = async () => {
 };
 
 const setToken = async (token) => {
+  console.log("1");
+
   await fetch("http://localhost:3002", {
     method: "post",
     body: JSON.stringify({ access_token: token }),
@@ -34,16 +38,25 @@ const setToken = async (token) => {
   });
 };
 const getToken = async () => {
+  console.log("2");
+
   await fetch("http://localhost:3002", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-  });
+    credentials: "include",
+  }).then(async (res) => console.log(res));
+  const data = await getAPIToken();
+  if (data === undefined) return undefined;
+  else return data;
+};
+const getAPIToken = async () => {
+  console.log(3);
   const result = await fetch("http://localhost:3002/auth", {
     method: "get",
     credentials: "include",
   })
     .then(async (res) => {
-      var data = await res.json();
+      var data = res.json();
       return data;
     })
     .catch((err) => {
@@ -51,12 +64,14 @@ const getToken = async () => {
     });
   if (!(await result).token)
     console.error("/auth에서 token을 받아오지 못했습니다.");
-  console.log((await result).token);
+  console.log("here ", (await result).token);
+
   return (await result).token;
 };
-const setProfile = async (_token) => {
+const setProfileWithNaverAPI = async () => {
+  console.log(3);
+
   const token = await getToken();
-  console.log(await getToken());
   const result = await fetch("http://localhost:3002/auth/member", {
     method: "get",
     headers: {
@@ -70,14 +85,14 @@ const setProfile = async (_token) => {
       return data;
     });
   if (!result) {
-    console.error("setProfile result err");
+    console.error("setProfileWithNaverAPI result err");
   }
   return result;
 };
 
 module.exports = {
-  getUserCheck,
+  getProfile,
   userCreate,
-  setProfile,
+  setProfileWithNaverAPI,
   setToken,
 };

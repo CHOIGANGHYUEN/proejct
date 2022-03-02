@@ -2,32 +2,42 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../../db/index");
 const userDBRouter = require("../routes/userDB");
-const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+
+router.use(cookieParser());
 router.use(bodyParser.json());
 router.use(userDBRouter);
-
+const baseUrl = "/api";
+const authUrl = "/auth";
 var token;
-router.use(cookieParser());
+var count = 0;
 
 router.post("/", async (req, res) => {
   token = await req.body.access_token;
-  console.log("token", token);
 });
 
 router.get("/", async (req, res) => {
-  console.log("쿠키로 보낼 데이터", token);
-
   res.cookie("access_token", token, {
     path: "/auth",
     httpOnly: true,
+    maxAge: 100000,
   });
-  res.send(token);
+  res.redirect("/auth");
 });
 router.get("/auth", (req, res) => {
-  const _token = req.cookies.access_token;
-  console.log("auth", _token);
-  res.send({ token: _token });
+  try {
+    const _token = req.cookies.access_token;
+    if (_token === undefined) {
+      console.log("쿠키 없음");
+      res.send({ token: undefined });
+    } else {
+      console.log("auth", _token);
+      res.send({ token: _token });
+    }
+  } catch (error) {
+    console.log("no");
+  }
 });
 router.get("/auth/member", function (req, res) {
   const header = req.headers.authorization;
@@ -37,12 +47,12 @@ router.get("/auth/member", function (req, res) {
     url: api_url,
     headers: { Authorization: header },
   };
-  var getUserDataOption = {
-    url: "http://localhost:3002/auth/usercheck",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+  // var getUserDataOption = {
+  //   url: "http://localhost:3002/auth/usercheck",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // };
   const sendUserDataOption = (_body) => {
     return {
       url: "http://localhost:3002/auth/usercheck",
@@ -74,21 +84,21 @@ router.get("/auth/member", function (req, res) {
           }
         );
         //userCheck에 저장된 데이터 호출
-        request.get(getUserDataOption, (_error, _response, userCheckBody) => {
-          if (!_error && _response.statusCode == 200) {
-            const isUser = JSON.parse(userCheckBody);
-            if (isUser) {
-              if (isUser.data) {
-                res.end(isUser.data);
-              }
-            }
-          } else {
-            if (_response != null) {
-              res.status(_response.statusCode).end();
-              console.log("GET _error = " + _response.statusCode);
-            }
-          }
-        });
+        // request.get(getUserDataOption, (_error, _response, userCheckBody) => {
+        //   if (!_error && _response.statusCode == 200) {
+        //     const isUser = JSON.parse(userCheckBody);
+        //     if (isUser) {
+        //       if (isUser.data) {
+        //         res.end(JSON.stringify(isUser.data));
+        //       }
+        //     }
+        //   } else {
+        //     if (_response != null) {
+        //       res.status(_response.statusCode).end();
+        //       console.log("GET _error = " + _response.statusCode);
+        //     }
+        //   }
+        // });
       } else console.log("API에서 user정보를 불러올 수 없습니다.");
     } else {
       if (response != null) {
@@ -98,8 +108,5 @@ router.get("/auth/member", function (req, res) {
     }
   });
 });
-router.get("/auth/clear", (req, res) => {
-  res.clearCookie("access_token");
-  res.redirect("/");
-});
+
 module.exports = router;
