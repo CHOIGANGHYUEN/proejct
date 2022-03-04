@@ -31,6 +31,7 @@ function ProfileComponent(props) {
     return (
       <div>
         <div>{Profile[0].user_id}</div>
+        <div>hello</div>
         <div>{Profile[0].user_name}</div>
         <div>{Profile[0].user_birthday}</div>
       </div>
