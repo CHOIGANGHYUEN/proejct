@@ -10,7 +10,7 @@ function RegisterBtn() {
 
   return (
     <button className="open" onClick={createUser} value="false">
-      가입하기
+      가입하기다
     </button>
   );
 }
