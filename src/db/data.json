@@ -1,0 +1,45 @@
+{
+  "positions": [
+    { "lat": 35.16529118884034, "lng": 126.8533147699858 },
+    { "lat": 35.154757474647035, "lng": 126.85442553073325 },
+    { "lat": 35.15696900980959, "lng": 126.85150750136376 },
+    { "lat": 35.1480281731107, "lng": 126.85496003974961 },
+    { "lat": 35.13563116701584, "lng": 126.8595159353107 },
+    { "lat": 35.126017191495656, "lng": 126.84996809671692 },
+    { "lat": 35.14189848114147, "lng": 126.93196550696372 },
+    { "lat": 35.14059656378455, "lng": 126.91698481308072 },
+    { "lat": 35.13404381807661, "lng": 126.87642531322595 },
+    { "lat": 35.14144692436408, "lng": 126.81066668383926 }
+  ],
+
+  "user": [
+    {
+      "nickname": "im_tae_1",
+
+      "icon": "../images/icon/태원.png",
+      "main-image": "../images/map-image/광주.jpeg",
+      "trip": "광주광역시",
+      "review": "광주광역시 여행 후기",
+      "likecnt": "30",
+      "thumnale": "../images/thumbnale/태원.png"
+    },
+    {
+      "nickname": "chch_0120",
+      "icon": "../images/icon/충희.png",
+      "main-image": "../images/map-image/제주.jpeg",
+      "trip": "제주특별자치도",
+      "review": "제주특별자치도 여행 후기",
+      "likecnt": "40",
+      "thumnale": "../images/thumbnale/충희.png"
+    },
+    {
+      "nickname": "malang_ckh",
+      "icon": "../images/icon/강현.png",
+      "main-image": "../images/map-image/경주.jpeg",
+      "trip": "경주시",
+      "review": "경주시 여행 후기",
+      "likecnt": "50",
+      "thumnale": "../images/thumbnale/강현.png"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+ul {
+  list-style: none;
+}
+
+#header-info {
+  height: 80px;
+  width: 1024px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#lss {
+  height: 60px;
+  max-width: 1024px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+#regist {
+  width: 200px;
+  display: flex;
+}
+
+#categori {
+  height: 50px;
+  max-width: 1024px;
+  width: 100%;
+  display: flex;
+  padding: 20px 0;
+  align-items: center;
+}
+#categori ul {
+  display: flex;
+}
+#categori ul li {
+  padding: 0 10px;
+}
+#categori ul li a:hover {
+  border-bottom: 2px solid aqua;
+}
+
+.logo-img {
+  width: 110px;
+  object-fit: contain;
+  margin-right: 10px;
+}
+.content-card {
+  margin-left: 20px;
+  align-items: center;
+}
